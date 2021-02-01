@@ -1,3 +1,96 @@
 <h1>
-    About me
+    irreligious86
 </h1>
+
+
+<div class="posts">
+    loading.....
+</div>
+
+
+
+<script>
+    const postsBlock = document.querySelector('.posts');
+    const userName = 'irreligious86';
+    const nFormatter = (num) => {
+        if (num >= 1000000000) {
+            return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'G';
+        }
+        if (num >= 1000000) {
+            return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+        }
+        if (num >= 1000) {
+            return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+        }
+        return num;
+    };
+    const postCard = (post)=>(`
+    <div class="post">
+        <img src="${post.node.display_url}" alt="${post.node.display_url}" class="post__cover">
+        <p> posts: ${nFormatter(post.node.edge_media_to_comment.count)}</p>
+        <p> likes: ${nFormatter(post.node.edge_liked_by.count)}</p>
+    </div>
+    `)
+    const getData = async userName => {
+        try {
+            const res = await fetch(`https://www.instagram.com/${userName}/?__a=1`);
+            return res.json()
+        } catch (e) {
+            throw new Error(e)
+        }
+    };
+    const renderPosts = posts => postsBlock.innerHTML = posts.map(postCard).join('');
+    (async()=>{
+        
+        const res = await getData(userName);
+        const graphql = await res.graphql;
+        const user = graphql.user;
+        const posts = user.edge_owner_to_timeline_media.edges;            
+        renderPosts(posts); 
+       
+    })()
+
+</script>
+
+
+<style>
+    .posts {
+        width: 90%;
+        margin: 0 auto;
+        min-height: 100vh;
+        --count: 3;
+        --gap: 1;
+        display: grid;
+        grid-template-columns: repeat(var(--count), 1fr);
+        grid-gap: calc(var(--gap) * 1em);
+        padding: calc(var(--gap) * 1em);
+    }
+    .post {
+        box-shadow: 1px 1px calc(var(--gap) * 1em);
+        font-size: calc(2em - 1vw);
+    }
+    .post__cover {
+        display: block;
+        width: 100%;
+        min-height: 30vh;
+        background-color: gray;
+    }
+    p {
+        padding: calc(var(--gap) * 1em);
+        text-align: center;
+    }
+    @media screen and (max-width: 800px) {
+        .posts{
+            --count: 2;
+            --gap: 0.6;
+        }
+            
+    }
+    @media screen and (max-width: 400px) {
+        .posts{
+          --count: 1;
+          --gap: 0.3;
+        }
+            
+    }
+</style>
