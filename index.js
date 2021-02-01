@@ -7,20 +7,22 @@ app.use(express.static('public'));
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
+
+
 app.get('/', (req, res) => {
-    res.render('home');
+    res.render('home', {title:'home'});
 })
 app.get('/about', (req, res) => {
-    res.render('about');
+    res.render('about',{title:'about'});
 })
 app.get('/portfolio', (req, res) => {
-    res.render('portfolio');
+    res.render('portfolio',{title:'portfolio'});
 })
 app.get('/contact', (req, res) => {
-    res.render('contact');
+    res.render('contact', {title:'contact'});
 })
 app.get('/resume', (req, res) => {
-    res.render('resume');
+    res.render('resume',{title:'resume'});
 })
 
 
