@@ -1,10 +1,13 @@
-<h1>
-    irreligious86
-</h1>
+<style>
+    :root{
+        --bg-header: orange;
+    }
+</style>
+<h1 style="text-align: center"> irreligious86</h1>
 
 
 <div class="posts">
-    loading.....
+    <h1 style="text-align: center">loading....</h1>
 </div>
 
 
@@ -40,17 +43,24 @@
         }
     };
     const renderPosts = posts => postsBlock.innerHTML = posts.map(postCard).join('');
-    (async()=>{
-        
-        const res = await getData(userName);
-        const graphql = await res.graphql;
-        const user = graphql.user;
-        const posts = user.edge_owner_to_timeline_media.edges;            
-        renderPosts(posts); 
-       
-
-
-       
+    async function fetchPosts(userName){
+        try{
+            const res = await getData(userName);
+            const graphql = await res.graphql;
+            const user = graphql.user;
+            const posts = user.edge_owner_to_timeline_media.edges;
+            renderPosts(posts);
+        }catch(err){
+            postsBlock.querySelector('h1').textContent =`
+             Whoops something wrong....
+            `;
+            setTimeout( async ()=>{
+                await fetchPosts('irreligious86')
+            }, 2000)
+        }
+    }
+    (async() => {
+        await fetchPosts(userName)
     })()
 
 </script>
@@ -89,10 +99,13 @@
         }
             
     }
-    @media screen and (max-width: 400px) {
+    @media screen and (max-width: 380px) {
         .posts{
           --count: 1;
           --gap: 0.3;
+        }
+        .post p{
+            display: none;
         }
             
     }
