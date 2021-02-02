@@ -1,0 +1,80 @@
+<style>
+    header{
+        background-color: var(--bg-header);
+        padding: 5px;
+    }
+
+    header nav{
+    //background-color: red;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 5px;
+        width: var(--container);
+        margin: 0 auto;
+    }
+
+    header nav ul {
+    //background-color: blueviolet;
+        display: flex;
+        flex: 1;
+        width: 100%;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+    }
+
+    header nav ul li{
+        margin-right: 5px;
+    }
+    header nav ul li:last-of-type{
+        margin-right: 0;
+    }
+
+    header nav ul li a{
+        color: var(--color-header);
+        text-transform: capitalize;
+        font-weight: 600;
+        font-size: 18px;
+        transition: 0.4s;
+    }
+
+    header nav ul li a:hover,
+    header nav ul li a:focus,
+    header nav ul li a.active
+    {
+        color: var(--color-header-active);
+    }
+</style>
+<header>
+    <nav>
+        <!--        <a href="/">LOGO</a>-->
+        <ul>
+            <li>
+                <a class="{{#if home}} active {{/if}}" href="/">
+                    home
+                </a>
+            </li>
+            <li>
+                <a class="{{#if about}} active {{/if}}" href="/about">
+                    about me
+                </a>
+            </li>
+            <li>
+                <a class="{{#if portfolio}} active {{/if}}" href="/portfolio">
+                    portfolio
+                </a>
+            </li>
+            <li>
+                <a class="{{#if contact}} active {{/if}}" href="/contact">
+                    contact
+                </a>
+            </li>
+            <li>
+                <a class="{{#if resume}} active {{/if}}" href="/resume">
+                    resume
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
