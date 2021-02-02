@@ -3,35 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width,
+          user-scalable=no,
+          initial-scale=1.0,
+          maximum-scale=1.0,
+          minimum-scale=1.0"
+    >
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Alex Voronov</title>
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <title>{{ title }}</title>
     <link rel="stylesheet" href="/css/index.css">
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 </head>
+<style>
+    :root{
+        --bg-header:#333;
+        --color-header:whitesmoke;
+        --container:95%;
+        --color-header-active: #007aff;
+        --main-bg:lightgray;
+    }
+
+    *{
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        text-decoration: none;
+        box-sizing: border-box;
+    }
+    body{
+        display: flex;
+        flex-direction: column;
+        background-color: var(--main-bg);
+    }
+    main{
+        flex:1;
+        min-height: 100vh;
+    }
+    section{
+        min-height: 100vh;
+    }
+</style>
 <body>
-<header>
-    <nav>
-<!--        <a href="/">LOGO</a>-->
-        <ul>
-            <li><a href="/">home</a></li>
-            <li><a href="/about">about me</a></li>
-            <li><a href="/portfolio">portfolio</a></li>
-            <li><a href="/contact">contact</a></li>
-            <li><a href="/resume">resume</a></li>
-        </ul>
-    </nav>
-</header>
+{{> header }}
 <main>
     {{{ body }}}
 </main>
-<footer>
-    <h6>
-        Copyright ©2021 My Portfolio by Alex Voronov.
-    </h6>
-</footer>
-<!-- Swiper JS -->
+{{> footer}}
 
 <script src="/js/index.js"></script>
 </body>

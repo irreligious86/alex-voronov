@@ -1,74 +1,54 @@
 <style>
     :root{
-        --bg-header: orange;
+        --bg-header: #05072f;
+        --color-header: white;
+        --color-header-active: lime;
+        --main-bg: #607D8B;
     }
 </style>
-<h1 style="text-align: center"> irreligious86</h1>
 
-
-<div class="posts">
-    <h1 style="text-align: center">loading....</h1>
+<div class="user">
+    <p>
+        <img src="{{user.cover}}" alt="cover" class="user__cover">
+        <h1>{{ user.username }}</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores dolor dolorum fugiat hic, illo in incidunt inventore, iste iusto libero molestiae non quis quos, rem sint totam veritatis vero.</p>
+    </p>
 </div>
 
 
 
-<script>
-    const postsBlock = document.querySelector('.posts');
-    const userName = 'irreligious86';
-    const nFormatter = (num) => {
-        if (num >= 1000000000) {
-            return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'G';
-        }
-        if (num >= 1000000) {
-            return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-        }
-        if (num >= 1000) {
-            return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-        }
-        return num;
-    };
-    const postCard = (post)=>(`
+<div class="posts">
+{{#each posts}}
     <div class="post">
-        <img src="${post.node.display_url}" alt="${post.node.display_url}" class="post__cover">
-        <p> posts: ${nFormatter(post.node.edge_media_to_comment.count)}</p>
-        <p> likes: ${nFormatter(post.node.edge_liked_by.count)}</p>
+        <img src="{{cover}}" alt="${post.node.display_url}" class="post__cover">
+        <p class="post__info">
+            <span> posts: {{count}} </span>
+            <span> likes: {{likes}} </span>
+        </p>
     </div>
-    `)
-    const getData = async userName => {
-        try {
-            const res = await fetch(`https://www.instagram.com/${userName}/?__a=1`);
-            return res.json()
-        } catch (e) {
-            throw new Error(e)
-        }
-    };
-    const renderPosts = posts => postsBlock.innerHTML = posts.map(postCard).join('');
-    async function fetchPosts(userName){
-        try{
-            const res = await getData(userName);
-            const graphql = await res.graphql;
-            const user = graphql.user;
-            const posts = user.edge_owner_to_timeline_media.edges;
-            renderPosts(posts);
-        }catch(err){
-            postsBlock.querySelector('h1').textContent =`
-             Whoops something wrong....
-            `;
-            setTimeout( async ()=>{
-                await fetchPosts('irreligious86')
-            }, 2000)
-        }
-    }
-    (async() => {
-        await fetchPosts(userName)
-    })()
+{{/each}}
+</div>
 
-</script>
+
+
+
 
 
 <style>
+    .user{
+        width: 95%;
+        margin: 0 auto;
+        padding: 25px;
+    }
+    .user__cover{
+        object-fit: cover;
+        display: block;
+        border-radius: 50%;
+        float: left;
+    }
     .posts {
-        width: 90%;
+        --h:50vh;
+        width: 95%;
         margin: 0 auto;
         min-height: 100vh;
         --count: 3;
@@ -79,34 +59,54 @@
         padding: calc(var(--gap) * 1em);
     }
     .post {
+        overflow: hidden;
+        position: relative;
         box-shadow: 1px 1px calc(var(--gap) * 1em);
         font-size: calc(2em - 1vw);
+        height: var(--h);
+        border-radius: 10px;
     }
     .post__cover {
         display: block;
         width: 100%;
-        min-height: 30vh;
+        height: 100%;
         background-color: gray;
+        transition: 0.4s;
+        object-fit: cover;
     }
-    p {
+
+    .post__info{
         padding: calc(var(--gap) * 1em);
-        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        flex-wrap: wrap;
+        color: azure;
+        background-color: rgba(0,0,0,0.61);
+        transform: translateY(100%);
+        transition: all 0.4s;
+    }
+    .post:hover .post__cover{
+        transform: scale(1.2);
+    }
+    .post:hover .post__info{
+        transform: translateY(0);
     }
     @media screen and (max-width: 800px) {
         .posts{
             --count: 2;
             --gap: 0.6;
+            --h:65vh;
         }
             
     }
-    @media screen and (max-width: 380px) {
-        .posts{
-          --count: 1;
-          --gap: 0.3;
+    @media screen and (max-width: 420px) {
+        .posts {
+            --count: 1;
+            --gap: 0.3;
+            --h:90vh;
         }
-        .post p{
-            display: none;
-        }
-            
     }
 </style>
