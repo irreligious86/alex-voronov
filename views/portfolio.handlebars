@@ -2,8 +2,116 @@
     :root{
         --bg-header: #210b44;
     }
+
 </style>
 
-<h1>
-    Portfolio
-</h1>
+<div class="user">
+    <div>
+        <img src="{{user.avatar_url}}" alt="cover" class="user__cover">
+        <h1>{{ user.name }}</h1>
+        <a target="_blank" href="{{user.html_url}}">github: {{user.login}}</a>
+    </div>
+    <br style="clear: both">
+</div>
+
+<div class="posts">
+    {{#each repos}}
+        <div class="post">
+
+            <p class="post__info">
+                <a href="https://github.com/{{owner.login}}/{{name}}">{{name}}</a>
+                <br>
+                {{description}}
+            </p>
+<!--            <img src="{{cover}}" alt="${post.node.display_url}" class="post__cover">-->
+<!--            <p class="post__info">-->
+<!--                <span> posts: {{count}} </span>-->
+<!--                <span> likes: {{likes}} </span>-->
+<!--            </p>-->
+        </div>
+    {{/each}}
+</div>
+
+
+<style>
+    .user{
+        width: 95%;
+        margin: 0 auto;
+        padding: 25px;
+    }
+    .user__cover{
+        object-fit: cover;
+        display: block;
+        border-radius: 50%;
+        float: left;
+    }
+    .posts {
+        --h:50vh;
+        width: 95%;
+        margin: 0 auto;
+        min-height: 100vh;
+        --count: 3;
+        --gap: 1;
+        display: grid;
+        grid-template-columns: repeat(var(--count), 1fr);
+        grid-gap: calc(var(--gap) * 1em);
+        padding: calc(var(--gap) * 1em);
+    }
+    .post {
+        overflow: hidden;
+        position: relative;
+        box-shadow: 1px 1px calc(var(--gap) * 1em);
+        font-size: calc(2em - 1vw);
+        height: var(--h);
+        border-radius: 10px;
+
+    }
+    .post__cover {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-color: gray;
+        transition: 0.4s;
+        object-fit: cover;
+    }
+
+    .post__info{
+        padding: calc(var(--gap) * 1em);
+        /*display: flex;*/
+        justify-content: space-between;
+        position: absolute;
+        bottom: 0;
+        top:0;
+        width: 100%;
+        flex-wrap: wrap;
+        color: azure;
+        background-color: rgba(0,0,0,0.61);
+        transform: translateY(0);
+        transition: all 0.4s;
+    }
+    .post__info a{
+        font-size: 18px;
+        color: gray;
+    }
+    .post:hover .post__cover{
+        transform: scale(1.2);
+    }
+    .post:hover .post__info{
+        transform: translateY(0);
+    }
+    @media screen and (max-width: 800px) {
+        .posts{
+            --count: 2;
+            --gap: 0.6;
+            --h:65vh;
+        }
+
+    }
+    @media screen and (max-width: 420px) {
+        .posts {
+            --count: 1;
+            --gap: 0.3;
+            --h:90vh;
+        }
+    }
+</style>

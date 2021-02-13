@@ -65,8 +65,17 @@ app.get('/about',async (req, res) => {
         errors:JSON.stringify(errors, null, 2)
     });
 })
-app.get('/portfolio', (req, res) => {
-    res.render('portfolio',links('portfolio'));
+app.get('/portfolio',async (req, res) => {
+    const userName = 'irreligious86';
+    const responseUser = await axios.get("https://api.github.com/users/" + userName)
+    const responseRepos = await axios.get("https://api.github.com/users/" + userName + '/repos')
+    const GitHubUser = await responseUser.data;
+    const GitHUbRepos = await responseRepos.data;
+    res.render('portfolio',{
+        ...links('portfolio'),
+        user: GitHubUser,
+        repos: GitHUbRepos
+    });
 })
 app.get('/contact', (req, res) => {
     res.render('contact', links('contact'));
